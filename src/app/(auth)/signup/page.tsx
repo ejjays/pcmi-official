@@ -16,7 +16,7 @@ export default function Page() {
           <div className="space-y-1 text-center">
             <h1 className="text-3xl font-bold">Sign up to PCMI</h1>
             <p className="text-muted-foreground">
-              Hello 👋!, <span className="italic">Join Us</span> by filling out the details below.
+              Hello 👋!, join us by filling out the details below.
             </p>
           </div>
           <div className="space-y-5">
