@@ -16,8 +16,7 @@ export default function Page() {
           <div className="space-y-1 text-center">
             <h1 className="text-3xl font-bold">Sign up to PCMI</h1>
             <p className="text-muted-foreground">
-              A place where even <span className="italic">you</span> can find a
-              friend.
+              A place where even <span className="italic">Hello 👋!</span>, Join us by filling out the details below.
             </p>
           </div>
           <div className="space-y-5">
