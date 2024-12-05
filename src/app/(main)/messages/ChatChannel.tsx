@@ -143,25 +143,34 @@ const CustomMessage = (props: any) => {
       />
       
       {/* Custom Reactions Panel */}
-      {showCustomReactions && (
-        <div 
-          ref={reactionsPanelRef}
-          className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 flex gap-4 p-4 bg-background/95 backdrop-blur-sm rounded-xl shadow-lg border"
-        >
-          {customReactionOptions.map((reaction) => (
-            <button
-              key={reaction.type}
-              onClick={() => handleReactionClick(reaction.type)}
-              className="text-xl hover:scale-125 transition-transform p-2"
-            >
-              <reaction.Component />
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
+     {showCustomReactions && (
+  <div 
+    ref={reactionsPanelRef}
+    className={cn(
+      "absolute bottom-full left-1/2 -translate-x-1/2 mb-2",
+      "flex items-center gap-2 p-2.5",
+      "bg-background/95 backdrop-blur-sm",
+      "rounded-lg shadow-lg border border-border/50",
+      "animate-in zoom-in-95 duration-200",
+      "md:gap-3 md:p-3" // larger spacing on desktop
+    )}
+  >
+    {customReactionOptions.map((reaction) => (
+      <button
+        key={reaction.type}
+        onClick={() => handleReactionClick(reaction.type)}
+        className={cn(
+          "p-1.5 text-base hover:scale-115", // smaller size for mobile
+          "transition-all duration-200",
+          "active:scale-90",
+          "md:text-lg md:p-2" // slightly larger on desktop
+        )}
+      >
+        <reaction.Component />
+      </button>
+    ))}
+  </div>
+)}
 
 export default function ChatChannel({ open, openSidebar }: ChatChannelProps) {
   return (
