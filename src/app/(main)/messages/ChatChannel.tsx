@@ -131,46 +131,47 @@ const CustomMessage = (props: any) => {
   };
 
   return (
-    <div
-      className="relative"
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
-      onClick={handleClick}
-    >
-      <MessageSimple 
-        {...props} 
-        handleReaction={useDefaultReactions ? props.handleReaction : undefined}
-      />
-      
-      {/* Custom Reactions Panel */}
-     {showCustomReactions && (
-  <div 
-    ref={reactionsPanelRef}
-    className={cn(
-      "absolute bottom-full left-1/2 -translate-x-1/2 mb-2",
-      "flex items-center gap-2 p-2.5",
-      "bg-background/95 backdrop-blur-sm",
-      "rounded-lg shadow-lg border border-border/50",
-      "animate-in zoom-in-95 duration-200",
-      "md:gap-3 md:p-3" // larger spacing on desktop
-    )}
+  <div
+    className="relative"
+    onTouchStart={handleTouchStart}
+    onTouchEnd={handleTouchEnd}
+    onClick={handleClick}
   >
-    {customReactionOptions.map((reaction) => (
-      <button
-        key={reaction.type}
-        onClick={() => handleReactionClick(reaction.type)}
+    <MessageSimple 
+      {...props} 
+      handleReaction={useDefaultReactions ? props.handleReaction : undefined}
+    />
+    
+    {showCustomReactions && (
+      <div 
+        ref={reactionsPanelRef}
         className={cn(
-          "p-1.5 text-base hover:scale-115", // smaller size for mobile
-          "transition-all duration-200",
-          "active:scale-90",
-          "md:text-lg md:p-2" // slightly larger on desktop
+          "absolute bottom-full left-1/2 -translate-x-1/2 mb-2",
+          "flex items-center gap-2 p-2.5",
+          "bg-background/95 backdrop-blur-sm",
+          "rounded-lg shadow-lg border border-border/50",
+          "animate-in zoom-in-95 duration-200",
+          "md:gap-3 md:p-3"
         )}
       >
-        <reaction.Component />
-      </button>
-    ))}
+        {customReactionOptions.map((reaction) => (
+          <button
+            key={reaction.type}
+            onClick={() => handleReactionClick(reaction.type)}
+            className={cn(
+              "p-1.5 text-base hover:scale-115",
+              "transition-all duration-200",
+              "active:scale-90",
+              "md:text-lg md:p-2"
+            )}
+          >
+            <reaction.Component />
+          </button>
+        ))}
+      </div>
+    )}
   </div>
-)}
+);
 
 export default function ChatChannel({ open, openSidebar }: ChatChannelProps) {
   return (
