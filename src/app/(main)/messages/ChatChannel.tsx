@@ -53,19 +53,44 @@ const customReactionOptions = [
 ];
 
 const CustomMessage = (props: any) => {
-  const [showReactions, setShowReactions] = useState(false);
+  const [showCustomReactions, setShowCustomReactions] = useState(false);
+  const [useDefaultReactions, setUseDefaultReactions] = useState(true);
   const longPressTimer = useRef<NodeJS.Timeout>();
   const touchStartTime = useRef<number>(0);
   
   const { channel } = useChannelStateContext();
   const { message } = useMessageContext();
 
-  // Prevent the default reaction selector from showing
-  const preventDefaultReactionSelector = (e: any) => {
+  // Handle long press to show custom reactions
+  const handleTouchStart = useCallback(() => {
+    touchStartTime.current = Date.now();
+    longPressTimer.current = setTimeout(() => {
+      setShowCustomReactions(true);
+      setUseDefaultReactions(false); // Disable default reactions
+    }, 500);
+  }, []);
+
+  // Handle normal click for default reactions
+  const handleClick = (e: any) => {
+    if (!showCustomReactions) {
+      setUseDefaultReactions(true);
+      // Let the default Stream reaction handler work
+      return;
+    }
+    // If custom reactions are showing, prevent default
     e.preventDefault();
     e.stopPropagation();
-    setShowReactions(true);
   };
+
+  const handleTouchEnd = useCallback(() => {
+    const pressDuration = Date.now() - touchStartTime.current;
+    if (pressDuration < 500) {
+      if (longPressTimer.current) {
+        clearTimeout(longPressTimer.current);
+        setUseDefaultReactions(true);
+      }
+    }
+  }, []);
 
   const handleReactionClick = async (reactionType: string) => {
     try {
@@ -83,52 +108,29 @@ const CustomMessage = (props: any) => {
     } catch (error) {
       console.error("Error handling reaction:", error);
     }
-    setShowReactions(false);
+    setShowCustomReactions(false);
+    setUseDefaultReactions(true);
   };
-
-  const handleTouchStart = useCallback(() => {
-    touchStartTime.current = Date.now();
-    longPressTimer.current = setTimeout(() => {
-      setShowReactions(true);
-    }, 500);
-  }, []);
-
-  const handleTouchEnd = useCallback(() => {
-    const pressDuration = Date.now() - touchStartTime.current;
-    if (pressDuration < 500) {
-      if (longPressTimer.current) {
-        clearTimeout(longPressTimer.current);
-      }
-    }
-  }, []);
-
-  const handleTouchMove = useCallback(() => {
-    if (longPressTimer.current) {
-      clearTimeout(longPressTimer.current);
-    }
-  }, []);
 
   return (
     <div
-      className="relative group"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
-      onTouchMove={handleTouchMove}
-      onMouseEnter={() => setShowReactions(true)}
-      onMouseLeave={() => setShowReactions(false)}
+      onClick={handleClick}
     >
-      {/* Override the default reaction selector */}
-      <div onClick={preventDefaultReactionSelector}>
-        <MessageSimple {...props} />
-      </div>
+      <MessageSimple 
+        {...props} 
+        handleReaction={useDefaultReactions ? props.handleReaction : undefined}
+      />
       
-      {showReactions && (
-        <div className="absolute bottom-full left-0 mb-2 flex gap-3 p-3 bg-background/80 backdrop-blur-sm rounded-lg shadow-lg transition-all duration-200 ease-in-out z-50">
+      {/* Custom Reactions Panel */}
+      {showCustomReactions && (
+        <div className="absolute bottom-full left-0 mb-2 flex gap-3 p-3 bg-background/80 backdrop-blur-sm rounded-lg shadow-lg">
           {customReactionOptions.map((reaction) => (
             <button
               key={reaction.type}
-              className="hover:scale-125 transition-transform duration-200 text-2xl" // Increased text size
               onClick={() => handleReactionClick(reaction.type)}
+              className="hover:scale-125 transition-transform"
             >
               <reaction.Component />
             </button>
