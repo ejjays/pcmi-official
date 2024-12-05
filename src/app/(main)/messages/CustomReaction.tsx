@@ -1,6 +1,11 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useChannelStateContext, useMessageContext, MessageSimple } from "stream-chat-react";
 import { cn } from "@/lib/utils";
+import { DefaultStreamChatGenerics } from "stream-chat";
+
+interface CustomMessageProps {
+  handleReaction?: (reactionType: string) => void;
+}
 
 const customReactionOptions = [
   {
@@ -35,10 +40,6 @@ const customReactionOptions = [
   },
 ];
 
-interface CustomMessageProps {
-  handleReaction?: (reactionType: string) => void;
-}
-
 const CustomMessage: React.FC<CustomMessageProps> = (props) => {
   const [showCustomReactions, setShowCustomReactions] = useState(false);
   const [useDefaultReactions, setUseDefaultReactions] = useState(true);
@@ -46,8 +47,8 @@ const CustomMessage: React.FC<CustomMessageProps> = (props) => {
   const touchStartTime = useRef<number>(0);
   const reactionsPanelRef = useRef<HTMLDivElement>(null);
 
-  const { channel } = useChannelStateContext();
-  const { message } = useMessageContext();
+  const { channel } = useChannelStateContext<DefaultStreamChatGenerics>();
+  const { message } = useMessageContext<DefaultStreamChatGenerics>();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
