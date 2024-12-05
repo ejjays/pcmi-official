@@ -57,27 +57,45 @@ const CustomMessage = (props: any) => {
   const [useDefaultReactions, setUseDefaultReactions] = useState(true);
   const longPressTimer = useRef<NodeJS.Timeout>();
   const touchStartTime = useRef<number>(0);
+  const reactionsPanelRef = useRef<HTMLDivElement>(null);
   
   const { channel } = useChannelStateContext();
   const { message } = useMessageContext();
 
-  // Handle long press to show custom reactions
+  // Add click outside handler
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        reactionsPanelRef.current && 
+        !reactionsPanelRef.current.contains(event.target as Node)
+      ) {
+        setShowCustomReactions(false);
+        setUseDefaultReactions(true);
+      }
+    };
+
+    if (showCustomReactions) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showCustomReactions]);
+
   const handleTouchStart = useCallback(() => {
     touchStartTime.current = Date.now();
     longPressTimer.current = setTimeout(() => {
       setShowCustomReactions(true);
-      setUseDefaultReactions(false); // Disable default reactions
+      setUseDefaultReactions(false);
     }, 500);
   }, []);
 
-  // Handle normal click for default reactions
   const handleClick = (e: any) => {
     if (!showCustomReactions) {
       setUseDefaultReactions(true);
-      // Let the default Stream reaction handler work
       return;
     }
-    // If custom reactions are showing, prevent default
     e.preventDefault();
     e.stopPropagation();
   };
@@ -114,6 +132,7 @@ const CustomMessage = (props: any) => {
 
   return (
     <div
+      className="relative"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
       onClick={handleClick}
@@ -125,12 +144,15 @@ const CustomMessage = (props: any) => {
       
       {/* Custom Reactions Panel */}
       {showCustomReactions && (
-        <div className="absolute bottom-full left-0 mb-2 flex gap-3 p-3 bg-background/80 backdrop-blur-sm rounded-lg shadow-lg">
+        <div 
+          ref={reactionsPanelRef}
+          className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 flex gap-4 p-4 bg-background/95 backdrop-blur-sm rounded-xl shadow-lg border"
+        >
           {customReactionOptions.map((reaction) => (
             <button
               key={reaction.type}
               onClick={() => handleReactionClick(reaction.type)}
-              className="hover:scale-125 transition-transform"
+              className="text-xl hover:scale-125 transition-transform p-2"
             >
               <reaction.Component />
             </button>
