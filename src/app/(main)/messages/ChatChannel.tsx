@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { Menu } from "lucide-react";
 import { Channel, ChannelHeader, ChannelHeaderProps, MessageInput, MessageList, Window } from "stream-chat-react";
 import { CustomMessage, customReactionOptions } from "./CustomReaction";
-import { StreamChatGenerics as DefaultStreamChatGenerics } from 'stream-chat-react';
+import { DefaultStreamChatGenerics } from 'stream-chat';
 interface ChatChannelProps {
   open: boolean;
   openSidebar: () => void;
