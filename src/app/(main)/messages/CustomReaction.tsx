@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useChannelStateContext, useMessageContext, MessageSimple } from "stream-chat-react";
 import { cn } from "@/lib/utils";
-import { DefaultStreamChatGenerics } from "stream-chat";
+import { DefaultStreamChatGenerics } from "stream-chat-react";
 
 interface CustomMessageProps {
   handleReaction?: (reactionType: string) => void;
