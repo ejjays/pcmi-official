@@ -10,18 +10,17 @@ import { useToast } from "./ui/use-toast";
 interface FollowButtonProps {
   userId: string;
   initialState: FollowerInfo;
+  variant?: "text" | "button"; // Add this prop
 }
 
 export default function FollowButton({
   userId,
   initialState,
+  variant = "button", // Default to button style
 }: FollowButtonProps) {
   const { toast } = useToast();
-
   const queryClient = useQueryClient();
-
   const { data } = useFollowerInfo(userId, initialState);
-
   const queryKey: QueryKey = ["follower-info", userId];
 
   const { mutate } = useMutation({
@@ -31,7 +30,6 @@ export default function FollowButton({
         : kyInstance.post(`/api/users/${userId}/followers`),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey });
-
       const previousState = queryClient.getQueryData<FollowerInfo>(queryKey);
 
       queryClient.setQueryData<FollowerInfo>(queryKey, () => ({
@@ -52,6 +50,21 @@ export default function FollowButton({
       });
     },
   });
+
+  if (variant === "text") {
+    return (
+      <button
+        onClick={() => mutate()}
+        className={`text-sm font-medium hover:opacity-80 ${
+          data.isFollowedByUser 
+            ? "text-muted-foreground" 
+            : "text-blue-500"
+        }`}
+      >
+        {data.isFollowedByUser ? "Following" : "Follow"}
+      </button>
+    );
+  }
 
   return (
     <Button
