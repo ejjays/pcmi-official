@@ -27,7 +27,7 @@ export default async function MenuBar({ className }: MenuBarProps) {
   ]);
 
   return (
-    <div className={className}>
+    <div className={`${className} flex flex-row items-center`}>
       <Button
         variant="ghost"
         className="flex items-center justify-start gap-3"
