@@ -26,7 +26,7 @@ export default function Post({ post }: PostProps) {
   const [showComments, setShowComments] = useState(false);
 
   return (
-    <article className="group/post rounded-2xl bg-card shadow-sm">
+    <article className="group/post w-full md:w-auto rounded-2xl bg-card shadow-sm mx-2 md:mx-0">
       {/* User info and post content section */}
       <div className="p-5 pb-3">
         <div className="flex justify-between gap-3">
@@ -46,8 +46,8 @@ export default function Post({ post }: PostProps) {
                     {post.user.displayName}
                   </Link>
                   {post.user.isVerified && (
-                    <VerifiedBadge 
-                      size="md" 
+                    <VerifiedBadge
+                      size="md"
                       showTooltip={true}
                     />
                   )}
