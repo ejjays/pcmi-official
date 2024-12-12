@@ -63,6 +63,7 @@ export default function Post({ post }: PostProps) {
                             (follower) => follower.followerId === user.id
                           ),
                         }}
+                       variant="text"
                       />
                     </>
                   )}
