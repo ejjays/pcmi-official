@@ -10,13 +10,13 @@ import { useToast } from "./ui/use-toast";
 interface FollowButtonProps {
   userId: string;
   initialState: FollowerInfo;
-  variant?: "text" | "button"; // Add this prop
+  variant?: "text" | "button";
 }
 
 export default function FollowButton({
   userId,
   initialState,
-  variant = "button", // Default to button style
+  variant = "button",
 }: FollowButtonProps) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -55,7 +55,7 @@ export default function FollowButton({
     return (
       <button
         onClick={() => mutate()}
-        className={`text-sm font-medium hover:opacity-80 ${
+        className={`text-sm font-bold hover:opacity-80 ${
           data.isFollowedByUser 
             ? "text-muted-foreground" 
             : "text-blue-500"
