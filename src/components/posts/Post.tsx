@@ -53,7 +53,7 @@ export default function Post({ post }: PostProps) {
                   )}
                   {user.id !== post.user.id && (
                     <>
-                      <span className="text-muted-foreground mx-2" style={{ fontWeight: 'bolder', fontSize: '2em' }}>•</span>
+                     <span className="text-muted-foreground mx-2" style={{ fontWeight: 'bold', color: 'black' }}>•</span>
                       <FollowButton
                         userId={post.user.id}
                         initialState={{
