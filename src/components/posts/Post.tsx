@@ -26,8 +26,7 @@ export default function Post({ post }: PostProps) {
   const [showComments, setShowComments] = useState(false);
 
   return (
-    <article className="group/post w-full md:w-auto rounded-2xl bg-card shadow-sm mx-2 md:mx-0">
-      {/* User info and post content section */}
+    <article className="group/post w-full md:w-auto bg-card shadow-sm md:rounded-2xl md:mx-0">
       <div className="p-5 pb-3">
         <div className="flex justify-between gap-3">
           <div className="flex flex-wrap gap-3">
