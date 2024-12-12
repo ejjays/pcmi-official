@@ -112,7 +112,7 @@ function MediaPreviews({ attachments }: MediaPreviewsProps) {
   return (
     <div
       className={cn(
-        "flex flex-col gap-3",
+        "flex flex-col gap-3 w-full",
         attachments.length > 1 && "sm:grid sm:grid-cols-2",
       )}
     >
@@ -135,18 +135,18 @@ function MediaPreview({ media }: MediaPreviewProps) {
         alt="Attachment"
         width={500}
         height={500}
-        className="mx-auto size-fit max-h-[30rem] rounded-2xl"
+        className="w-full h-auto object-cover" // Removed rounded-2xl
       />
     );
   }
-
+  
   if (media.type === "VIDEO") {
     return (
-      <div>
+      <div className="w-full">
         <video
           src={media.url}
           controls
-          className="mx-auto size-fit max-h-[30rem] rounded-2xl"
+          className="w-full h-auto" // Removed rounded-2xl
         />
       </div>
     );
