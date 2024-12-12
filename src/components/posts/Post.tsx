@@ -43,7 +43,7 @@ export default function Post({ post }: PostProps) {
                     href={`/users/${post.user.username}`}
                     className="block font-medium hover:underline"
                   >
-                    {post.user.displayName}
+                    <b>{post.user.displayName}</b>
                   </Link>
                   {post.user.isVerified && (
                     <VerifiedBadge
@@ -51,7 +51,6 @@ export default function Post({ post }: PostProps) {
                       showTooltip={true}
                     />
                   )}
-                  {/* Add follow button section */}
                   {user.id !== post.user.id && (
                     <>
                       <span className="text-muted-foreground mx-2">•</span>
@@ -63,7 +62,7 @@ export default function Post({ post }: PostProps) {
                             (follower) => follower.followerId === user.id
                           ),
                         }}
-                       variant="text"
+                        variant="text"
                       />
                     </>
                   )}
@@ -91,15 +90,11 @@ export default function Post({ post }: PostProps) {
           </Linkify>
         </div>
       </div>
-
-      {/* Media section - no horizontal padding */}
       {!!post.attachments.length && (
         <div className="w-full">
           <MediaPreviews attachments={post.attachments} />
         </div>
       )}
-
-      {/* Actions section */}
       <div className="p-5 pt-3">
         <hr className="text-muted-foreground mb-3" />
         <div className="flex justify-between gap-5">
@@ -166,7 +161,7 @@ function MediaPreview({ media }: MediaPreviewProps) {
       />
     );
   }
-  
+
   if (media.type === "VIDEO") {
     return (
       <video
