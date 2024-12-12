@@ -16,6 +16,7 @@ import BookmarkButton from "./BookmarkButton";
 import LikeButton from "./LikeButton";
 import PostMoreButton from "./PostMoreButton";
 import VerifiedBadge from "../VerifiedBadge";
+import FollowButton from "../FollowButton";
 
 interface PostProps {
   post: PostData;
@@ -49,6 +50,21 @@ export default function Post({ post }: PostProps) {
                       size="md"
                       showTooltip={true}
                     />
+                  )}
+                  {/* Add follow button section */}
+                  {user.id !== post.user.id && (
+                    <>
+                      <span className="text-muted-foreground mx-2">•</span>
+                      <FollowButton
+                        userId={post.user.id}
+                        initialState={{
+                          followers: post.user._count.followers,
+                          isFollowedByUser: post.user.followers.some(
+                            (follower) => follower.followerId === user.id
+                          ),
+                        }}
+                      />
+                    </>
                   )}
                 </div>
               </UserTooltip>
