@@ -23,9 +23,7 @@ export default async function Layout({
           {children}
         </div>
         <MobileMenuBar className="sticky bottom-0 w-full border-t bg-card p-3 sm:hidden">
-  <div className="flex flex-row justify-around w-full">
-    <MenuBar />
-  </div>
+  <MenuBar className="flex flex-row justify-around w-full space-y-0" />
 </MobileMenuBar>
       </div>
     </SessionProvider>
