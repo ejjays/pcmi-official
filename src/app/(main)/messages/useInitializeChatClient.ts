@@ -10,7 +10,6 @@ let clientInstance: StreamChat | null = null;
 export default function useInitializeChatClient() {
   const { user } = useSession();
   
-  // Use React Query for caching
   const { data: chatClient } = useQuery({
     queryKey: ['chat-client', user.id],
     queryFn: async () => {
@@ -41,7 +40,7 @@ export default function useInitializeChatClient() {
       return clientInstance;
     },
     staleTime: 1000 * 60 * 30, // Keep the data fresh for 30 minutes
-    cacheTime: 1000 * 60 * 60, // Cache the data for 1 hour
+    gcTime: 1000 * 60 * 60,    // Changed from cacheTime to gcTime
   });
 
   return chatClient;
