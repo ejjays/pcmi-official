@@ -152,13 +152,14 @@ interface MediaPreviewProps {
 function MediaPreview({ media }: MediaPreviewProps) {
   if (media.type === "IMAGE") {
     return (
-      <div className="relative w-full h-0" style={{ paddingBottom: '75%' }}> {/* 4:3 Aspect Ratio */}
+      <div className="w-full">
         <Image
           src={media.url}
           alt="Attachment"
-          layout="fill"
-          objectFit="cover"
-          className="absolute top-0 left-0"
+          layout="responsive" // This allows responsive behavior
+          width={500} // Set a base width
+          height={500} // Set a base height
+          className="object-contain" // Use contain to avoid cropping
         />
       </div>
     );
@@ -166,16 +167,15 @@ function MediaPreview({ media }: MediaPreviewProps) {
 
   if (media.type === "VIDEO") {
     return (
-      <div className="relative w-full h-0" style={{ paddingBottom: '56.25%' }}> {/* 16:9 Aspect Ratio */}
+      <div className="w-full">
         <video
           src={media.url}
           controls
-          className="absolute top-0 left-0 w-full h-full"
+          className="w-full h-auto" // Maintain aspect ratio
         />
       </div>
     );
   }
-
 
   return <p className="text-destructive">Unsupported media type</p>;
 }
