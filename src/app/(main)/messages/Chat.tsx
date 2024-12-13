@@ -23,7 +23,7 @@ function BottomBar() {
 function LoadingState({ status }: { status: string }) {
   return (
     <div
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-4"
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-4 md:hidden" // Added md:hidden
       style={{ backgroundColor: `hsl(var(--card))` }}
     >
       <Loader2 className="animate-spin" />
