@@ -152,25 +152,30 @@ interface MediaPreviewProps {
 function MediaPreview({ media }: MediaPreviewProps) {
   if (media.type === "IMAGE") {
     return (
-      <Image
-        src={media.url}
-        alt="Attachment"
-        width={500}
-        height={500}
-        className="w-full h-auto object-cover"
-      />
+      <div className="relative w-full h-0" style={{ paddingBottom: '75%' }}> {/* 4:3 Aspect Ratio */}
+        <Image
+          src={media.url}
+          alt="Attachment"
+          layout="fill"
+          objectFit="cover"
+          className="absolute top-0 left-0"
+        />
+      </div>
     );
   }
 
   if (media.type === "VIDEO") {
     return (
-      <video
-        src={media.url}
-        controls
-        className="w-full h-auto"
-      />
+      <div className="relative w-full h-0" style={{ paddingBottom: '56.25%' }}> {/* 16:9 Aspect Ratio */}
+        <video
+          src={media.url}
+          controls
+          className="absolute top-0 left-0 w-full h-full"
+        />
+      </div>
     );
   }
+
 
   return <p className="text-destructive">Unsupported media type</p>;
 }
