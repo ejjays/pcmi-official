@@ -53,7 +53,7 @@ export default function Post({ post }: PostProps) {
                   )}
                   {user.id !== post.user.id && (
                     <>
-                     <span className="text-muted-foreground mx-2" style={{ fontWeight: 'bold', color: 'black' }}>•</span>
+                     <span className="text-black dark:text-white mx-2 font-bold">•</span>
                       <FollowButton
                         userId={post.user.id}
                         initialState={{
@@ -152,28 +152,23 @@ interface MediaPreviewProps {
 function MediaPreview({ media }: MediaPreviewProps) {
   if (media.type === "IMAGE") {
     return (
-      <div className="w-full">
-        <Image
-          src={media.url}
-          alt="Attachment"
-          layout="responsive" // This allows responsive behavior
-          width={500} // Set a base width
-          height={500} // Set a base height
-          className="object-contain" // Use contain to avoid cropping
-        />
-      </div>
+      <Image
+        src={media.url}
+        alt="Attachment"
+        width={500}
+        height={500}
+        className="w-full h-auto object-cover"
+      />
     );
   }
 
   if (media.type === "VIDEO") {
     return (
-      <div className="w-full">
-        <video
-          src={media.url}
-          controls
-          className="w-full h-auto" // Maintain aspect ratio
-        />
-      </div>
+      <video
+        src={media.url}
+        controls
+        className="w-full h-auto"
+      />
     );
   }
 
