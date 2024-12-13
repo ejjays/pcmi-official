@@ -37,7 +37,7 @@ function LoadingState({ status }: { status: string }) {
   );
 }
 
-export default function Chat() {
+rt default function Chat() {
   const chatClient = useInitializeChatClient();
   const { resolvedTheme } = useTheme();
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -45,12 +45,14 @@ export default function Chat() {
 
   useEffect(() => {
     if (chatClient) {
-      chatClient.on('connection.changed', ({ online = false }) => {
+      const handleConnectionChange = ({ online = false }) => {
         setConnectionStatus(online ? 'connected' : 'disconnected');
-      });
+      };
+
+      chatClient.on('connection.changed', handleConnectionChange);
 
       return () => {
-        chatClient.off('connection.changed');
+        chatClient.off('connection.changed', handleConnectionChange);
       };
     }
   }, [chatClient]);
