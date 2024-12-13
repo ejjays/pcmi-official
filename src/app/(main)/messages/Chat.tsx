@@ -37,7 +37,7 @@ function LoadingState({ status }: { status: string }) {
   );
 }
 
-rt default function Chat() {
+export default function Chat() {
   const chatClient = useInitializeChatClient();
   const { resolvedTheme } = useTheme();
   const [sidebarOpen, setSidebarOpen] = useState(true);
