@@ -63,8 +63,8 @@ export default function Chat() {
   // Handle connection status
   useEffect(() => {
     if (chatClient) {
-      // Set initial connection status
-      setConnectionStatus(chatClient.isConnected ? 'connected' : 'connecting');
+      // Set initial connection status based on connection state
+      setConnectionStatus(chatClient.wsConnection?.isHealthy ? 'connected' : 'connecting');
 
       const handleConnectionChange = ({ online = false }) => {
         setConnectionStatus(online ? 'connected' : 'disconnected');
