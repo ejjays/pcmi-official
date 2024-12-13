@@ -23,10 +23,10 @@ function BottomBar() {
 function LoadingState({ status }: { status: string }) {
   return (
     <div
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-4 md:hidden" // Increased z-index and kept md:hidden
-      style={{ backgroundColor: `hsl(var(--background))` }} // Changed to background color
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-4" 
+      style={{ backgroundColor: `hsl(var(--background))` }} 
     >
-      <Loader2 className="h-8 w-8 animate-spin" /> {/* Added explicit size */}
+      <Loader2 className="h-8 w-8 animate-spin" /> 
       <p className="text-sm text-muted-foreground">
         {status === 'connecting' ? 'Connecting to chat...' : 'Reconnecting...'}
       </p>
