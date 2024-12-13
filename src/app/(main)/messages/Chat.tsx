@@ -34,13 +34,21 @@ function LoadingState({ status }: { status: string }) {
   );
 }
 
+function ChatErrorBoundary({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="relative w-full h-full">
+      {children}
+    </div>
+  );
+}
+
 export default function Chat() {
   const chatClient = useInitializeChatClient();
   const { resolvedTheme } = useTheme();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [connectionStatus, setConnectionStatus] = useState<'connecting' | 'connected' | 'disconnected'>('connecting');
 
-  // Add this to persist the sidebar state
+  // Persist sidebar state
   useEffect(() => {
     const savedSidebarState = localStorage.getItem('chat-sidebar-state');
     if (savedSidebarState) {
@@ -52,8 +60,12 @@ export default function Chat() {
     localStorage.setItem('chat-sidebar-state', JSON.stringify(sidebarOpen));
   }, [sidebarOpen]);
 
+  // Handle connection status
   useEffect(() => {
     if (chatClient) {
+      // Set initial connection status
+      setConnectionStatus(chatClient.isConnected ? 'connected' : 'connecting');
+
       const handleConnectionChange = ({ online = false }) => {
         setConnectionStatus(online ? 'connected' : 'disconnected');
       };
@@ -65,37 +77,38 @@ export default function Chat() {
       };
     }
   }, [chatClient]);
-  
+
   if (!chatClient) {
     return <LoadingState status={connectionStatus} />;
   }
 
   return (
-    <main className="fixed inset-0 z-10 overflow-hidden bg-card md:relative md:w-full md:h-auto">
-      <TopBar />
-      <div className="absolute inset-0 flex pt-[2vh] pb-[2vh] md:pt-0 md:pb-0">
-        <StreamChat
-          client={chatClient}
-          theme={resolvedTheme === "dark" ? "str-chat__theme-dark" : "str-chat__theme-light"}
-        >
-          <ChatSidebar
-            open={sidebarOpen}
-            onClose={() => setSidebarOpen(false)}
-          />
-          <ChatChannel
-            open={!sidebarOpen}
-            openSidebar={() => setSidebarOpen(true)}
-          />
-        </StreamChat>
-      </div>
-      <BottomBar />
-    
-      {connectionStatus === 'disconnected' && (
-        <div className="fixed bottom-4 right-4 bg-destructive text-destructive-foreground px-4 py-2 rounded-md text-sm">
-          Connection lost. Reconnecting...
+    <ChatErrorBoundary>
+      <main className="fixed inset-0 z-10 overflow-hidden bg-card md:relative md:w-full md:h-auto">
+        <TopBar />
+        <div className="absolute inset-0 flex pt-[2vh] pb-[2vh] md:pt-0 md:pb-0">
+          <StreamChat
+            client={chatClient}
+            theme={resolvedTheme === "dark" ? "str-chat__theme-dark" : "str-chat__theme-light"}
+          >
+            <ChatSidebar
+              open={sidebarOpen}
+              onClose={() => setSidebarOpen(false)}
+            />
+            <ChatChannel
+              open={!sidebarOpen}
+              openSidebar={() => setSidebarOpen(true)}
+            />
+          </StreamChat>
         </div>
-      )}
-    </main>
+        <BottomBar />
+
+        {connectionStatus === 'disconnected' && (
+          <div className="fixed bottom-4 right-4 bg-destructive text-destructive-foreground px-4 py-2 rounded-md text-sm">
+            Connection lost. Reconnecting...
+          </div>
+        )}
+      </main>
+    </ChatErrorBoundary>
   );
 }
-
