@@ -4,5 +4,10 @@
       "path": "/api/clear-uploads",
       "schedule": "0 2 * * *"
     }
-  ]
+  ],
+  "vercel": {
+    "git": {
+      "deploymentEnabled": false
+    }
+  }
 }
