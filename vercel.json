@@ -7,7 +7,7 @@
   ],
   "vercel": {
     "git": {
-      "deploymentEnabled": false
+      "deploymentEnabled": true
     }
   }
 }
