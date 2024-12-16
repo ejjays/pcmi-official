@@ -5,9 +5,9 @@
       "schedule": "0 2 * * *"
     }
   ],
-  "vercel": {
-    "git": {
-      "deploymentEnabled": true
+  "git": {
+    "deploymentEnabled": {
+      "main": false
     }
   }
 }
