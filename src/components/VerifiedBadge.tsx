@@ -46,7 +46,7 @@ export default function VerifiedBadge({
         )}
       >
         <Image
-          src="/verified-badge.gif"
+          src="/verified-badge.svg"
           alt="Verified Badge"
           width={badgeSize}
           height={badgeSize}
